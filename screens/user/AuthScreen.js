@@ -82,10 +82,11 @@ const AuthScreen = (props) => {
     setIsLoading(true)
     try {
       await dispatch(action)
+      props.navigation.navigate('Shop')
     } catch (err) {
       setError(err.message)
+      setIsLoading(false)
     }
-    setIsLoading(false)
   }
 
   const inputChangeHandler = useCallback(
@@ -101,61 +102,61 @@ const AuthScreen = (props) => {
   )
 
   return (
-    <KeyboardAvoidingView
-      behavior='padding'
-      keyboardVerticalOffset={50}
-      style={styles.screen}
-    >
-      <LinearGradient colors={['#ffedff', '#ffe3ff']} style={styles.gradient}>
-        <Card style={styles.authContainer}>
-          <ScrollView>
-            <Input
-              id='email'
-              label='E-mail'
-              keyboardType='email-address'
-              required
-              email
-              autoCapitalize='none'
-              errorText='Please enter a valid email address.'
-              onInputChange={inputChangeHandler}
-              initialValue=''
-            />
-            <Input
-              id='password'
-              label='Password'
-              keyboardType='default'
-              secureTextEntry
-              required
-              minLength={5}
-              autoCapitalize='none'
-              errorText='Please enter a valid password.'
-              onInputChange={inputChangeHandler}
-              initialValue=''
-            />
-            <View style={styles.buttonContainer}>
-              {isLoading ? (
-                <ActivityIndicator size='small' color={Colors.primary} />
-              ) : (
-                <Button
-                  title={isSignup ? 'Sign Up' : 'Login'}
-                  color={Colors.primary}
-                  onPress={authHandler}
-                />
-              )}
-            </View>
-            <View style={styles.buttonContainer}>
+    // <KeyboardAvoidingView
+    //   behavior='padding'
+    //   keyboardVerticalOffset={50}
+    //   style={styles.screen}
+    // >
+    <LinearGradient colors={['#ffedff', '#ffe3ff']} style={styles.gradient}>
+      <Card style={styles.authContainer}>
+        <ScrollView>
+          <Input
+            id='email'
+            label='E-mail'
+            keyboardType='email-address'
+            required
+            email
+            autoCapitalize='none'
+            errorText='Please enter a valid email address.'
+            onInputChange={inputChangeHandler}
+            initialValue=''
+          />
+          <Input
+            id='password'
+            label='Password'
+            keyboardType='default'
+            secureTextEntry
+            required
+            minLength={5}
+            autoCapitalize='none'
+            errorText='Please enter a valid password.'
+            onInputChange={inputChangeHandler}
+            initialValue=''
+          />
+          <View style={styles.buttonContainer}>
+            {isLoading ? (
+              <ActivityIndicator size='small' color={Colors.primary} />
+            ) : (
               <Button
-                title={`Switch to ${isSignup ? 'Login' : 'Sign Up'}`}
-                color={Colors.accent}
-                onPress={() => {
-                  setIsSignup((prevState) => !prevState)
-                }}
+                title={isSignup ? 'Sign Up' : 'Login'}
+                color={Colors.primary}
+                onPress={authHandler}
               />
-            </View>
-          </ScrollView>
-        </Card>
-      </LinearGradient>
-    </KeyboardAvoidingView>
+            )}
+          </View>
+          <View style={styles.buttonContainer}>
+            <Button
+              title={`Switch to ${isSignup ? 'Login' : 'Sign Up'}`}
+              color={Colors.accent}
+              onPress={() => {
+                setIsSignup((prevState) => !prevState)
+              }}
+            />
+          </View>
+        </ScrollView>
+      </Card>
+    </LinearGradient>
+    // </KeyboardAvoidingView>
   )
 }
 

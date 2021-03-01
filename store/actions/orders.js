@@ -4,10 +4,11 @@ export const ADD_ORDER = 'ADD_ORDER'
 export const SET_ORDERS = 'SET_ORDERS'
 
 export const fetchOrders = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId //to get the user id
     try {
       const response = await fetch(
-        'https://fishingbuddy-web-test.firebaseio.com/orders/u1.json'
+        `https://fishingbuddy-web-test.firebaseio.com/orders/${userId}.json`
       )
 
       if (!response.ok) {
@@ -36,10 +37,12 @@ export const fetchOrders = () => {
 }
 
 export const addOrder = (cartItems, totalAmount) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token //to get the token
+    const userId = getState().auth.userId //to get the user id
     const date = new Date()
     const response = await fetch(
-      'https://fishingbuddy-web-test.firebaseio.com/orders/u1.json',
+      `https://fishingbuddy-web-test.firebaseio.com/orders/${userId}.json?auth=${token}`,
       {
         method: 'POST',
         headers: {
